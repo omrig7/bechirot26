@@ -42,39 +42,33 @@
   addEventListener('resize',progress);
   progress();
 
-  /* live election-day line in the ticker (Israel time; static text stays if anything fails) */
-  var status=document.getElementById('status');
-  var OPEN=Date.UTC(2026,9,27,5,0),CLOSE=Date.UTC(2026,9,27,20,0),DAY=Date.UTC(2026,9,27);
-  var DATE_HE='שלישי 27.10 · <span dir="ltr">07:00–22:00</span>',DATE_EN='Tue 27.10 · <span dir="ltr">07:00–22:00</span>';
-  function seg(s){return s.split(' · ').map(function(p){return '<span class="seg">'+p+'</span>';}).join(' · ');}
-  function both(he,en){return '<span class="he">'+seg(he)+'</span><span class="en">'+seg(en)+'</span>';}
-  function n(x){return '<span class="tnum">'+x+'</span>';}
-  function left(ms){
-    var mins=Math.max(1,Math.ceil(ms/60000)),h=Math.floor(mins/60),m=mins%60;
-    var he=h?(h===1?'שעה':n(h)+' שעות')+(m?' ו-'+n(m)+' דק׳':''):(m===1?'דקה':n(m)+' דקות');
-    var en=(h?n(h)+'h':'')+(h&&m?' ':'')+(m?n(m)+'m':'');
-    return [he,en];
-  }
-  function renderStatus(){
-    var now=Date.now(),html;
-    if(now>=CLOSE){
-      html=both('הקלפיות נסגרו · תודה שהשפעתם','Polls are closed · Thanks for voting');
-    }else if(now>=OPEN){
-      var l=left(CLOSE-now);
-      html='<i class="live" aria-hidden="true"></i>'+both('הקלפיות פתוחות עכשיו · נסגרות בעוד '+l[0],'Polls are open now · closing in '+l[1]);
-    }else{
-      var d=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jerusalem',year:'numeric',month:'2-digit',day:'2-digit'}).format(now).split('-');
-      var days=Math.round((DAY-Date.UTC(+d[0],d[1]-1,+d[2]))/864e5);
-      if(days<=0)html=both('היום בחירות · הקלפיות נפתחות ב-<span dir="ltr">07:00</span>','Election Day is today · polls open at <span dir="ltr">07:00</span>');
-      else if(days===1)html=both('מחר בחירות · '+DATE_HE,'Election Day is tomorrow · '+DATE_EN);
-      else if(days===2)html=both('עוד יומיים לבחירות · '+DATE_HE,n(2)+' days to Election Day · '+DATE_EN);
-      else html=both('עוד '+n(days)+' ימים לבחירות · '+DATE_HE,n(days)+' days to Election Day · '+DATE_EN);
+  /* countdown clock on the cover: to opening, then to closing (polls 07:00–22:00 Israel time on 27.10.2026) */
+  var clock=document.getElementById('clock');
+  var OPEN=Date.UTC(2026,9,27,5,0),CLOSE=Date.UTC(2026,9,27,20,0);
+  function both(he,en){return '<span class="he">'+he+'</span><span class="en">'+en+'</span>';}
+  var CAP={
+    pre:both('לפתיחת הקלפיות','until the polls open'),
+    open:both('לסגירת הקלפיות','until the polls close')
+  };
+  CAP.last=CAP.open;
+  var unitEls=clock.querySelectorAll('.u b'),capT=clock.querySelector('.cap-t'),state=null,timer=null;
+  function pad(x){return (x<10?'0':'')+x;}
+  function renderClock(){
+    var now=Date.now(),st=now<OPEN?'pre':now<CLOSE-3600000?'open':now<CLOSE?'last':'closed';
+    if(st!==state){
+      state=st;clock.dataset.state=st==='last'?'open':st;
+      clock.classList.toggle('last',st==='last');
+      if(CAP[st])capT.innerHTML=CAP[st];
     }
-    if(status.innerHTML!==html)status.innerHTML=html;
+    if(st==='closed'){clearTimeout(timer);return;}
+    var s=Math.ceil(((st==='pre'?OPEN:CLOSE)-now)/1000);
+    var v=[Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60];
+    v.forEach(function(x,i){var t=pad(x);if(unitEls[i].textContent!==t)unitEls[i].textContent=t;});
+    timer=setTimeout(renderClock,1000-Date.now()%1000+20);
   }
-  function tick(){try{renderStatus();}catch(e){return;}setTimeout(tick,60000-Date.now()%60000+50);}
-  tick();
-  document.addEventListener('visibilitychange',function(){if(!document.hidden)try{renderStatus();}catch(e){}});
+  renderClock();
+  clock.hidden=false;
+  document.addEventListener('visibilitychange',function(){if(!document.hidden&&state!=='closed'){clearTimeout(timer);renderClock();}});
 
   if(!('IntersectionObserver' in window))return;
 

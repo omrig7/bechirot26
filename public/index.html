@@ -123,9 +123,22 @@ html.cta-on .cta-bar{transform:none}
 
 /* ticker */
 .ticker{background:var(--sage);color:var(--white);padding:12px var(--pad);text-align:center;font-size:var(--fs-sm);font-weight:800}
-.ticker .live{display:inline-block;width:.55em;height:.55em;border-radius:50%;background:var(--cream);margin-inline-end:.55em;vertical-align:.05em}
-.ticker .tnum{font-variant-numeric:tabular-nums}
-.ticker .seg{white-space:nowrap}
+
+/* countdown clock (filled in by app.js; hidden without it) */
+.clock{display:flex;flex-direction:column;gap:10px;align-self:flex-start;max-width:100%}
+.clock[hidden]{display:none}
+.clock-cap{display:flex;align-items:center;justify-content:center;gap:8px;font-size:var(--fs-md);font-weight:700;color:var(--cream)}
+.clock-units{display:flex;gap:8px;direction:ltr;justify-content:flex-end}
+html:has(#langchk:checked) .clock-units{justify-content:flex-start}
+.clock .u{flex:0 1 84px;width:84px;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px 8px;border-radius:14px;background:var(--navy2);transition:background .4s}
+.clock.last .u{background:#C8412E}
+.clock.last .u small{color:var(--white)}
+.clock .u[hidden]{display:none}
+.clock .u b{font-size:clamp(26px,1.2rem + 2vw,40px);font-weight:800;line-height:1;color:var(--cream);font-variant-numeric:tabular-nums}
+.clock .u small{font-size:var(--fs-xs);font-weight:500;color:var(--mist)}
+.clock-done{display:none;font-size:var(--fs-lg);font-weight:800;color:var(--cream)}
+.clock[data-state="closed"] .clock-cap,.clock[data-state="closed"] .clock-units{display:none}
+.clock[data-state="closed"] .clock-done{display:block}
 
 /* sections: grid adds columns as space allows */
 .sec{--max-cols:2;padding:var(--space) var(--pad);display:grid;grid-template-columns:repeat(auto-fit,minmax(max(var(--col),(100% - (var(--max-cols) - 1) * var(--gap)) / var(--max-cols)),1fr));gap:var(--gap);align-items:stretch}
@@ -244,16 +257,14 @@ footer h2 .hl{color:var(--blue)}
 @keyframes pop{from{opacity:0;transform:scale(.6)}}
 @keyframes line{from{transform:translateY(100%);clip-path:inset(-30% -6% 100% -6%)}to{transform:none;clip-path:inset(-30% -6% -30% -6%)}}
 @keyframes drift{to{translate:0 55%;scale:1.4}}
-@keyframes live{0%{box-shadow:0 0 0 0 rgba(241,239,228,.7)}70%,100%{box-shadow:0 0 0 .55em rgba(241,239,228,0)}}
 @media (prefers-reduced-motion:no-preference){
   .hero .dot{animation:pop .6s var(--ease) backwards}
   .hero .logo,.hero .pill-cream{animation:fade .4s backwards}
   .hero-title>span,.hero-sub{animation:line .6s var(--ease) backwards}
   .hero-title>.l2{animation-delay:.06s}
   .hero-sub{animation-delay:.12s}
-  .hero-lead,.hero .btns{animation:rise .5s .16s var(--ease) backwards}
+  .clock,.hero-lead,.hero .btns{animation:rise .5s .16s var(--ease) backwards}
   .hero .btns{animation-delay:.22s}
-  .ticker .live{animation:live 2.4s ease-out infinite}
   @supports (animation-timeline:scroll()){
     .hero .dot{animation:pop .6s var(--ease) backwards,drift linear both;animation-timeline:auto,scroll(root);animation-range:normal,0 100svh}
   }
@@ -384,6 +395,11 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
     <span class="l2"><span class="he">לכנסת ה-26</span><span class="en">for the 26th Knesset</span></span>
   </h1>
   <p class="hero-sub"><span class="he">כל מה שצריך לדעת לפני הקלפי</span><span class="en">Everything you need to know before you vote</span></p>
+  <div class="clock" id="clock" hidden>
+    <div class="clock-units" role="timer"><span class="u u-d"><b>00</b><small><span class="he">ימים</span><span class="en">days</span></small></span><span class="u"><b>00</b><small><span class="he">שעות</span><span class="en">hours</span></small></span><span class="u"><b>00</b><small><span class="he">דקות</span><span class="en">min</span></small></span><span class="u"><b>00</b><small><span class="he">שניות</span><span class="en">sec</span></small></span></div>
+    <p class="clock-cap"><span class="cap-t"></span></p>
+    <p class="clock-done"><span class="he">הקלפיות נסגרו · תודה שהשפעתם</span><span class="en">Polls are closed · Thanks for voting</span></p>
+  </div>
   <p class="hero-lead"><span class="he">במדינה דמוקרטית, האזרחים הם אלו שמעניקים לנבחרי השלטון את הסמכות לייצג אותם ולנהל את המדינה.</span><span class="en">In a democracy, it is the citizens who give elected officials the authority to represent them and run the country.</span> <span class="he">הנה כל המידע שיעזור לכם להבין איך הקול שלכם הופך להשפעה בקלפי.</span><span class="en">Here is everything that will help you understand how your vote turns into real influence at the ballot box.</span></p>
   <div class="btns">
     <a class="btn btn-cream" href="https://www.gov.il/apps/moin/bocharim/" target="_blank" rel="noopener">
@@ -396,7 +412,7 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
 
 <!-- ticker -->
 <div class="ticker">
-  <span id="status"><span class="he">יום הבחירות · שלישי 27.10</span><span class="en">Election Day · Tue 27.10</span> · <span dir="ltr">07:00–22:00</span></span>
+  <span><span class="he">יום הבחירות · שלישי 27.10</span><span class="en">Election Day · Tue 27.10</span> · <span dir="ltr">07:00–22:00</span></span>
 </div>
 
 <!-- ============ 01 איך אני מצביע/ה ============ -->
