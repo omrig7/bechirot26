@@ -1,5 +1,6 @@
 (function(){
   var root=document.documentElement;
+  var calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* keep the reader's place when switching language */
   var chk=document.getElementById('langchk'),anchor=null,top=0;
@@ -78,8 +79,7 @@
   if(!('IntersectionObserver' in window))return;
 
   /* current section: label on the menu button + highlight in menu and tabs */
-  var curN=menu.querySelector('.cur-n'),curT=menu.querySelector('.cur-t');
-  var defN=curN.innerHTML,defT=curT.innerHTML;
+  var curT=menu.querySelector('.cur-t'),defT=curT.innerHTML;
   var links={};
   document.querySelectorAll('.menu a[href^="#"], .tabs a[href^="#"]').forEach(function(a){
     var id=a.getAttribute('href').slice(1);(links[id]=links[id]||[]).push(a);
@@ -89,10 +89,9 @@
     if(id===current)return;
     if(current&&links[current])links[current].forEach(function(a){a.removeAttribute('aria-current');});
     current=id;
-    if(!links[id]){curN.innerHTML=defN;curT.innerHTML=defT;return;}
+    if(!links[id]){curT.innerHTML=defT;return;}
     links[id].forEach(function(a){a.setAttribute('aria-current','true');});
     var item=menu.querySelector('.menu a[href="#'+id+'"]');
-    curN.textContent=item.querySelector('b').textContent;
     curT.innerHTML=item.querySelector('span').innerHTML;
   }
   var spy=new IntersectionObserver(function(entries){
@@ -105,4 +104,60 @@
   function syncCta(){root.classList.toggle('cta-on',!heroVisible&&!footVisible);}
   new IntersectionObserver(function(e){heroVisible=e[0].isIntersecting;syncCta();},{rootMargin:'-'+getComputedStyle(root).getPropertyValue('--bar-h').trim()+' 0px 0px 0px'}).observe(document.querySelector('.hero .btns'));
   new IntersectionObserver(function(e){footVisible=e[0].isIntersecting;syncCta();}).observe(document.querySelector('footer'));
+
+  if(calm)return;
+
+  /* one-time reveals; only things below the first screen are hidden, so nothing visible ever blinks */
+  var vh=innerHeight;
+  var kinds=[
+    ['.sec-head h2, footer h2','mask'],
+    ['.sec-head .sub-h, .sec-head .intro, .sec>p, .sec>.chips, .sec>.btn, .group, .row, .card, .feature, .hours, .compare, .sec>.box, .foot-kicker, .frow, .logo-foot, .fnote','']
+  ];
+  var pending=new Map();
+  var reveal=new IntersectionObserver(function(entries){
+    var due=[];
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      reveal.unobserve(e.target);
+      due=due.concat(pending.get(e.target));
+      pending.delete(e.target);
+    });
+    due.sort(function(a,b){return a.getBoundingClientRect().top-b.getBoundingClientRect().top;})
+      .forEach(function(el,i){
+        el.style.setProperty('--d',Math.min(i*.05,.15)+'s');
+        el.classList.add('in');
+      });
+  });
+  kinds.forEach(function(k){
+    document.querySelectorAll(k[0]).forEach(function(el){
+      if(el.classList.contains('rv')||el.getBoundingClientRect().top<vh)return;
+      el.classList.add('rv');
+      if(k[1])el.classList.add(k[1]);
+      /* clipped elements have no visible area to observe, so watch their container */
+      var watch=k[1]==='mask'?el.parentElement:el;
+      if(!pending.has(watch)){pending.set(watch,[]);reveal.observe(watch);}
+      pending.get(watch).push(el);
+    });
+  });
+
+  /* big numbers count up the first time they come into view */
+  var NUM=/^(\d[\d,]*)(\.\d+)?(%?)$/;
+  function countUp(el){
+    var txt=el.textContent.trim(),m=NUM.exec(txt),dec=m[2]?m[2].length-1:0,target=parseFloat(txt.replace(/,/g,'')),t0=null;
+    function fmt(v){return v.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec,useGrouping:m[1].indexOf(',')>-1})+m[3];}
+    function step(t){
+      if(t0===null)t0=t;
+      var p=Math.min(1,(t-t0)/900);
+      el.textContent=p<1?fmt(target*(1-Math.pow(1-p,4))):txt;
+      if(p<1)requestAnimationFrame(step);
+    }
+    el.textContent=fmt(0);
+    requestAnimationFrame(step);
+  }
+  var counter=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){counter.unobserve(e.target);countUp(e.target);}});
+  },{threshold:.6});
+  document.querySelectorAll('.big, .stat b').forEach(function(el){
+    if(NUM.test(el.textContent.trim())&&el.getBoundingClientRect().top>=vh)counter.observe(el);
+  });
 })();

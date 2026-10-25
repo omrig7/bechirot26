@@ -76,16 +76,13 @@ main{width:min(100%, 1180px);margin:0 auto;background:var(--cream);display:flex;
 .secmenu>summary:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 .cur{flex:1;min-width:0;display:flex;align-items:center;gap:8px;white-space:nowrap;overflow:hidden}
 .cur-t{overflow:hidden;text-overflow:ellipsis}
-.cur-n{color:var(--blue);font-weight:800}
 .chev{flex-shrink:0;transition:transform .2s}
 .secmenu[open] .chev{transform:rotate(180deg)}
 .secmenu[open]>summary{background:var(--cream);color:var(--navy)}
 .secmenu[open]::before{content:"";position:fixed;inset:0;z-index:0;background:rgba(8,18,56,.5)}
 .menu{position:absolute;z-index:1;top:100%;left:0;right:0;margin:0;padding:10px var(--pad) 16px;list-style:none;display:grid;gap:6px;background:var(--navy);box-shadow:0 14px 28px rgba(0,0,0,.3);max-height:calc(100dvh - var(--bar-h));overflow-y:auto;overscroll-behavior:contain}
 .menu a{display:flex;align-items:center;gap:14px;min-height:52px;padding:0 16px;border-radius:14px;background:var(--navy2);color:var(--cream);font-size:var(--fs-md);font-weight:700;text-decoration:none}
-.menu a b{min-width:24px;color:var(--blue);font-size:var(--fs-sm)}
 .menu a[aria-current="true"]{background:var(--cream);color:var(--navy)}
-.menu a[aria-current="true"] b{color:var(--navy)}
 
 .tabs{display:none;flex:1;min-width:0;align-items:center;gap:6px}
 .tabs a{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;background:var(--navy2);color:var(--cream);font-size:var(--fs-sm);font-weight:700;text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
@@ -101,16 +98,17 @@ html.cta-on .cta-bar{transform:none}
 @media (prefers-reduced-motion:reduce){.cta-bar{transition:none}}
 
 /* hero */
-.hero{container-type:inline-size;background:var(--navy);color:var(--cream);padding:clamp(20px,3vw,44px) var(--pad) clamp(32px,5vw,68px);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:clamp(18px,2.4vw,28px)}
+.hero{container-type:inline-size;background:var(--navy);color:var(--cream);padding:clamp(20px,3vw,44px) var(--pad) clamp(32px,5vw,68px);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:clamp(18px,2.4vw,28px);min-height:min(calc(100svh - var(--bar-h) - 44px),880px)}
+/* cover layout: logo on top, title centred, actions at the bottom of the first screen */
+.hero .btns{margin-top:auto}
 .hero>*{position:relative}
 .hero .dot{position:absolute;top:-70px;inset-inline-end:-70px;width:clamp(140px,16vw,220px);aspect-ratio:1;border-radius:50%;background:var(--blue)}
 .hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .logo{display:block;height:clamp(76px,9vw,112px);width:auto;max-width:65%;object-fit:contain}
 .logo-foot{grid-column:1/-1;margin-top:16px;height:clamp(68px,7vw,96px)}
-.kicker{align-self:flex-start;margin-top:clamp(12px,3cqi,40px);font-size:var(--fs-sm);font-weight:800;padding:7px 14px;border-radius:999px;background:var(--navy2);color:var(--cream)}
 .hero-sub{margin-top:-4px;font-size:var(--fs-xl);font-weight:800;line-height:1.2;color:var(--cream)}
 .pill-cream{font-size:var(--fs-xs);font-weight:800;padding:6px 12px;border-radius:999px;background:var(--cream);color:var(--navy);white-space:nowrap}
-.hero-title{display:flex;flex-direction:column;margin:0;font-weight:800;line-height:.95;font-size:min(27cqi,150px)}
+.hero-title{display:flex;flex-direction:column;margin:auto 0 0;font-weight:800;line-height:.95;font-size:min(27cqi,150px)}
 .hero-title .l2{color:var(--blue);font-size:min(17cqi,104px);line-height:1.05}
 .hero-lead{font-size:var(--fs-md);line-height:1.6;max-width:60ch;color:var(--mist)}
 .btns{display:flex;flex-wrap:wrap;gap:10px}
@@ -130,16 +128,31 @@ html.cta-on .cta-bar{transform:none}
 .ticker .seg{white-space:nowrap}
 
 /* sections: grid adds columns as space allows */
-.sec{--max-cols:2;padding:var(--space) var(--pad) 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(max(var(--col),(100% - (var(--max-cols) - 1) * var(--gap)) / var(--max-cols)),1fr));gap:var(--gap);align-items:stretch}
+.sec{--max-cols:2;padding:var(--space) var(--pad);display:grid;grid-template-columns:repeat(auto-fit,minmax(max(var(--col),(100% - (var(--max-cols) - 1) * var(--gap)) / var(--max-cols)),1fr));gap:var(--gap);align-items:stretch}
 #system{--col:min(100%, 280px);--max-cols:3}
-.sec>.sec-head,.sec>.group,.sec>.compare,.sec>.box,.sec>.hours,#myths>.feature{grid-column:1/-1}
-.sec-head{display:flex;flex-direction:column;gap:6px}
-.eyebrow{font-size:var(--fs-xs);font-weight:800;letter-spacing:.06em;color:var(--navy)}
-.sec h2,.block h2{margin:0;font-weight:800;font-size:var(--fs-h2);line-height:1.05}
-.intro{margin-top:4px;font-size:var(--fs-md);line-height:1.6;color:var(--ink);max-width:65ch}
-.block{margin:var(--space) var(--pad) 0;background:var(--sage);color:var(--white);border-radius:calc(var(--radius) + 6px);padding:clamp(24px,4.5vw,56px) clamp(18px,4.5vw,56px);display:flex;flex-direction:column;gap:16px}
-.block .eyebrow{color:var(--cream)}
-.block p{font-size:var(--fs-md);line-height:1.6;color:var(--white);max-width:65ch}
+.sec>.sec-head,.sec>.group,.sec>.compare,.sec>.box,.sec>.hours,.sec>p,.sec>.chips,#myths>.feature{grid-column:1/-1}
+.sec>.btn{grid-column:1/-1;justify-self:start}
+.sec-head{display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(8px,1.5vw,20px)}
+.sec h2{margin:0;font-weight:800;font-size:clamp(34px, 1.3rem + 3.6vw, 64px);line-height:1.05}
+.sub-h{font-size:var(--fs-xl);font-weight:700;line-height:1.2;color:var(--sage)}
+.card,.row,.compare,.hours{color:var(--navy)}
+.intro{font-size:var(--fs-md);line-height:1.6;color:var(--ink);max-width:65ch}
+.sec>p{font-size:var(--fs-md);line-height:1.65;max-width:65ch}
+.sec>p.q{font-weight:800;margin-top:6px}
+
+/* each section is its own full-width band */
+.band-white{background:var(--white)}
+.band-white .card,.band-white .row,.band-white .compare{background:var(--cream);border-color:transparent}
+.band-white .box{background:var(--white)}
+.band-white .chip{background:var(--cream);border-color:transparent}
+.band-sage{background:var(--sage);color:var(--white)}
+.band-sage .sub-h{color:var(--cream)}
+.band-sage .row{border-color:transparent}
+.band-sage .chip{background:transparent;border-color:rgba(255,255,255,.6);color:var(--white)}
+.band-navy{background:var(--navy);color:var(--cream)}
+.band-navy .sub-h{color:var(--blue)}
+.band-navy .feature{background:var(--navy2)}
+.band-navy .card,.band-navy .compare{border-color:transparent}
 
 /* cards */
 .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:var(--card-pad);display:flex;flex-direction:column;gap:10px;min-width:0}
@@ -157,10 +170,10 @@ html.cta-on .cta-bar{transform:none}
 .feature p strong{color:var(--cream)}
 .feature .label{font-size:var(--fs-sm);font-weight:800}
 /* sized to the card, so it can never overflow it */
-.big{font-weight:800;color:var(--blue);font-size:min(16.5cqi,84px);line-height:1.05;white-space:nowrap}
+.big{font-weight:800;color:var(--blue);font-size:min(16.5cqi,84px);line-height:1.05;white-space:nowrap;font-variant-numeric:tabular-nums}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr));gap:10px}
 .stat{background:rgba(255,255,255,.14);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
-.stat b{font-size:var(--fs-lg);font-weight:800}
+.stat b{font-size:var(--fs-lg);font-weight:800;font-variant-numeric:tabular-nums}
 .stat span{font-size:var(--fs-xs)}
 .stat.wide{grid-column:1/-1}
 .box{font-size:var(--fs-sm);font-weight:700;line-height:1.5;padding:10px 12px;border-radius:12px;background:var(--cream);color:var(--navy)}
@@ -168,15 +181,14 @@ html.cta-on .cta-bar{transform:none}
 .box.alert{background:var(--navy3);color:var(--white);font-size:var(--fs-base);padding:14px 16px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{font-size:var(--fs-sm);font-weight:700;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--white);max-width:100%}
-.block .chip{background:transparent;border-color:rgba(255,255,255,.55);color:var(--white)}
-.block .chip.on{background:var(--cream);color:var(--navy);border-color:var(--cream)}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,110px),1fr));gap:8px}
 .grid2 .box{padding:12px}
 .grid2.ids{grid-template-columns:repeat(3,minmax(0,1fr))}
 .grid2.ids .box{padding:10px 6px;text-align:center;display:flex;align-items:center;justify-content:center}
 
 /* steps (event-row style) */
-.group{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px;padding-top:8px;margin-top:8px;border-top:2px solid var(--navy)}
+.group{position:relative;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px;padding-top:10px;margin-top:8px}
+.group::before{content:"";position:absolute;top:0;inset-inline:0;height:2px;background:var(--navy);transform-origin:right}
 .group h3{margin:0;font-size:var(--fs-lg);font-weight:800}
 .group span{font-size:var(--fs-sm);font-weight:800}
 .row{display:flex;gap:clamp(10px,1.6vw,16px);background:var(--white);border:1px solid var(--line);border-radius:calc(var(--radius) - 2px);padding:clamp(12px,1.6vw,18px);min-width:0}
@@ -214,7 +226,7 @@ html.cta-on .cta-bar{transform:none}
 
 
 /* footer */
-footer{margin-top:var(--space);background:var(--navy);color:var(--cream);padding:clamp(36px,5vw,64px) var(--pad) calc(110px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
+footer{background:var(--navy);color:var(--cream);padding:clamp(36px,5vw,64px) var(--pad) calc(110px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
 footer>h2,footer>.fnote{grid-column:1/-1}
 footer h2{margin:0;font-weight:800;font-size:var(--fs-h2);line-height:1.05}
 footer h2 .hl{color:var(--blue)}
@@ -225,26 +237,35 @@ footer h2 .hl{color:var(--blue)}
 .fnote{margin-top:16px;padding-top:24px;border-top:1px solid #4F68B8;font-size:var(--fs-sm);color:var(--mist);line-height:1.6}
 .arw{flex-shrink:0}
 
-/* entrance: hero lines rise in on load, content fades in as it scrolls into view */
-@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+/* motion: quick and light; the cover plays once on load, below the fold app.js tags elements .rv and adds .in as they arrive */
+:root{--ease:cubic-bezier(.2,.8,.2,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}}
+@keyframes fade{from{opacity:0}}
 @keyframes pop{from{opacity:0;transform:scale(.6)}}
+@keyframes line{from{transform:translateY(100%);clip-path:inset(-30% -6% 100% -6%)}to{transform:none;clip-path:inset(-30% -6% -30% -6%)}}
+@keyframes drift{to{translate:0 55%;scale:1.4}}
 @keyframes live{0%{box-shadow:0 0 0 0 rgba(241,239,228,.7)}70%,100%{box-shadow:0 0 0 .55em rgba(241,239,228,0)}}
 @media (prefers-reduced-motion:no-preference){
-  .hero-top,.kicker,.hero-title>span,.hero-sub,.hero-lead,.btns{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
-  .hero-top{animation-delay:.05s}
-  .kicker{animation-delay:.12s}
-  .hero-title>span:first-child{animation-delay:.2s}
-  .hero-title>span.l2{animation-delay:.3s}
-  .hero-sub{animation-delay:.4s}
-  .hero-lead{animation-delay:.48s}
-  .btns{animation-delay:.56s}
-  .hero .dot{animation:pop .8s cubic-bezier(.2,.7,.2,1) both}
-  .ticker{animation:rise .5s .65s both}
+  .hero .dot{animation:pop .6s var(--ease) backwards}
+  .hero .logo,.hero .pill-cream{animation:fade .4s backwards}
+  .hero-title>span,.hero-sub{animation:line .6s var(--ease) backwards}
+  .hero-title>.l2{animation-delay:.06s}
+  .hero-sub{animation-delay:.12s}
+  .hero-lead,.hero .btns{animation:rise .5s .16s var(--ease) backwards}
+  .hero .btns{animation-delay:.22s}
   .ticker .live{animation:live 2.4s ease-out infinite}
-  @supports (animation-timeline:view()){
-    .sec-head,.card,.row,.feature,.hours,.block,.compare,.group,.sec>.box,.frow,.foot-kicker,footer h2{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 45%}
+  @supports (animation-timeline:scroll()){
+    .hero .dot{animation:pop .6s var(--ease) backwards,drift linear both;animation-timeline:auto,scroll(root);animation-range:normal,0 100svh}
   }
+
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .45s ease var(--d,0s),transform .55s var(--ease) var(--d,0s)}
+  .rv.in{opacity:1;transform:none}
+  .rv.mask{opacity:1;transform:translateY(100%);clip-path:inset(-30% -6% 100% -6%);transition:transform .6s var(--ease) var(--d,0s),clip-path .6s var(--ease) var(--d,0s)}
+  .rv.mask.in{transform:none;clip-path:inset(-30% -6% -30% -6%)}
+  .group.rv::before{transform:scaleX(0);transition:transform .7s var(--ease) var(--d,0s)}
+  .group.rv.in::before{transform:none}
 }
+html:has(#langchk:checked) .group::before{transform-origin:left}
 </style>
 
 <style id="controls">
@@ -295,25 +316,25 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
 <nav class="topbar" aria-label="ניווט / Navigation">
   <div class="topbar-in">
     <details class="secmenu" id="secmenu">
-      <summary aria-label="נושאים בעמוד / Page sections"><span class="cur"><b class="cur-n">00</b><span class="cur-t"><span class="he">פתיחה</span><span class="en">Introduction</span></span></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
+      <summary aria-label="נושאים בעמוד / Page sections"><span class="cur"><span class="cur-t"><span class="he">פתיחה</span><span class="en">Introduction</span></span></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
       <ol class="menu">
-        <li><a href="#top"><b>00</b><span><span class="he">פתיחה</span><span class="en">Introduction</span></span></a></li>
-        <li><a href="#vote"><b>01</b><span><span class="he">איך מצביעים</span><span class="en">How to vote</span></span></a></li>
-        <li><a href="#double"><b>02</b><span><span class="he">מעטפות כפולות</span><span class="en">Double envelopes</span></span></a></li>
-        <li><a href="#choose"><b>03</b><span><span class="he">למי להצביע?</span><span class="en">Who to vote for?</span></span></a></li>
-        <li><a href="#facts"><b>04</b><span><span class="he">הבחירות במספרים</span><span class="en">The elections in numbers</span></span></a></li>
-        <li><a href="#myths"><b>05</b><span><span class="he">מנפצים מיתוסים</span><span class="en">Myth busting</span></span></a></li>
-        <li><a href="#system"><b>06</b><span><span class="he">6 עקרונות הברזל</span><span class="en">The 6 core principles</span></span></a></li>
-        <li><a href="#dictionary"><b>07</b><span><span class="he">המילון למצביע</span><span class="en">The voter's dictionary</span></span></a></li>
+        <li><a href="#top"><span><span class="he">פתיחה</span><span class="en">Introduction</span></span></a></li>
+        <li><a href="#vote"><span><span class="he">איך מצביעים</span><span class="en">How to vote</span></span></a></li>
+        <li><a href="#double"><span><span class="he">מעטפות כפולות</span><span class="en">Double envelopes</span></span></a></li>
+        <li><a href="#choose"><span><span class="he">למי להצביע?</span><span class="en">Who to vote for?</span></span></a></li>
+        <li><a href="#facts"><span><span class="he">תעודת זהות בחירות</span><span class="en">Key facts</span></span></a></li>
+        <li><a href="#myths"><span><span class="he">מנפצים מיתוסים</span><span class="en">Myth busting</span></span></a></li>
+        <li><a href="#system"><span><span class="he">איך השיטה עובדת?</span><span class="en">How the system works</span></span></a></li>
+        <li><a href="#dictionary"><span><span class="he">המילון למצביע</span><span class="en">The voter's dictionary</span></span></a></li>
       </ol>
     </details>
     <div class="tabs" id="tabs">
       <a href="#vote"><span class="he">איך מצביעים</span><span class="en">How to vote</span></a>
       <a href="#double"><span class="he">מעטפות כפולות</span><span class="en">Double envelopes</span></a>
       <a href="#choose"><span class="he">למי להצביע</span><span class="en">Who to vote for</span></a>
-      <a href="#facts"><span class="he">במספרים</span><span class="en">Key facts</span></a>
+      <a href="#facts"><span class="he">תעודת זהות</span><span class="en">Key facts</span></a>
       <a href="#myths"><span class="he">מיתוסים</span><span class="en">Myths</span></a>
-      <a href="#system"><span class="he">העקרונות</span><span class="en">Principles</span></a>
+      <a href="#system"><span class="he">איך השיטה עובדת</span><span class="en">The system</span></a>
       <a href="#dictionary"><span class="he">המילון</span><span class="en">Dictionary</span></a>
     </div>
     <label id="langBtn" for="langchk" aria-label="English / עברית"><span class="he">EN</span><span class="en">עב</span></label>
@@ -358,7 +379,6 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
     <img class="logo" src="logo-light.png" width="400" height="205" alt="אגודת הסטודנטים | אוניברסיטת רייכמן · Students Union | Reichman University">
     <span class="pill-cream">27.10.26</span>
   </div>
-  <span class="kicker"><span class="he">המדריך המורחב לסטודנט</span><span class="en">The extended student guide</span></span>
   <h1 class="hero-title">
     <span><span class="he">בחירות</span><span class="en">Elections</span></span>
     <span class="l2"><span class="he">לכנסת ה-26</span><span class="en">for the 26th Knesset</span></span>
@@ -382,7 +402,6 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
 <!-- ============ 01 איך אני מצביע/ה ============ -->
 <section id="vote" class="sec">
   <div class="sec-head">
-    <span class="eyebrow"><span class="he">01 — ביום הבחירות</span><span class="en">01 — On Election Day</span></span>
     <h2><span class="he">איך אני מצביע/ה?</span><span class="en">How do I vote?</span></h2>
     <p class="intro"><span class="he">ארבעה שלבים, כמה דקות, וקול אחד שמשפיע.</span><span class="en">Four steps, a few minutes, and one vote that counts.</span></p>
   </div>
@@ -414,12 +433,12 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
   <div class="group" style="margin-top:12px"><h3><span class="he">מאחורי הפרגוד</span><span class="en">Behind the screen</span></h3><span><span class="he">שלבים 3–4</span><span class="en">Steps 3–4</span></span></div>
 
   <article class="row">
-    <div class="row-badge dark"><small><span class="he">שלב</span><span class="en">Step</span></small><b>3</b></div>
+    <div class="row-badge"><small><span class="he">שלב</span><span class="en">Step</span></small><b>3</b></div>
     <div class="row-body">
       <h4><span class="he">איך מצביעים בפועל?</span><span class="en">How do I actually vote?</span></h4>
       <ol class="list">
-        <li><span class="he">ברגע שמגישים את התעודה המזהה, מקבלים <strong>מעטפה אחת</strong>.</span><span class="en">Once you present your ID, you receive <strong>one envelope</strong>.</span></li>
-        <li><span class="he">קח/י פתק <strong>אחד בלבד</strong> עם האותיות של המפלגה שאת/ה מצביע/ה לה.</span><span class="en">Take <strong>only one</strong> ballot slip with the letters of the party you are voting for.</span></li>
+        <li><span class="he">ברגע שמגישים את התעודה המזהה, מקבלים מעטפה אחת.</span><span class="en">Once you present your ID, you receive one envelope.</span></li>
+        <li><span class="he">קח/י פתק אחד בלבד עם האותיות של המפלגה שאת/ה מצביע/ה לה.</span><span class="en">Take only one ballot slip with the letters of the party you are voting for.</span></li>
         <li><span class="he">שים/י את הפתק במעטפה והכנס/י את המעטפה אל הקופסה הייעודית.</span><span class="en">Put the slip in the envelope and drop the envelope into the ballot box.</span></li>
       </ol>
     </div>
@@ -447,22 +466,22 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
 </section>
 
 <!-- ============ 02 מעטפות כפולות ============ -->
-<section id="double" class="block">
-  <span class="eyebrow"><span class="he">02 — סטודנטים רחוקים מהבית?</span><span class="en">02 — Students far from home?</span></span>
-  <h2><span class="he">מדריך המעטפות הכפולות</span><span class="en">The double-envelope guide</span></h2>
+<section id="double" class="sec band-sage">
+  <div class="sec-head">
+    <h2><span class="he">סטודנטים רחוקים מהבית?</span><span class="en">Students far from home?</span></h2>
+    <p class="sub-h"><span class="he">מדריך המעטפות הכפולות</span><span class="en">The double-envelope guide</span></p>
+  </div>
   <p><span class="he">שיטת הבחירות בנויה על "ריתוק לקלפי" – כל אזרח משויך לקלפי ספציפית לפי כתובתו במרשם האוכלוסין, ורק שם הוא רשאי להצביע. עם זאת, החוק מאפשר לאוכלוסיות מסוימות להצביע מחוץ לעיר שלהן.</span><span class="en">The system is based on being "tied to a polling station" – every citizen is assigned a specific station by their address in the Population Registry, and may vote only there. However, the law allows certain groups to vote outside their city.</span></p>
-  <p style="font-weight:800"><span class="he">מי יכול להצביע במעטפה כפולה?</span><span class="en">Who can vote with a double envelope?</span></p>
+  <p class="q"><span class="he">מי יכול להצביע במעטפה כפולה?</span><span class="en">Who can vote with a double envelope?</span></p>
   <div class="chips">
-    <span class="chip on"><span class="he">סטודנטים מילואימניקים בשירות פעיל (בבסיסי צה"ל)</span><span class="en">Students on active reserve duty (at IDF bases)</span></span>
+    <span class="chip"><span class="he">סטודנטים מילואימניקים בשירות פעיל (בבסיסי צה"ל)</span><span class="en">Students on active reserve duty (at IDF bases)</span></span>
     <span class="chip"><span class="he">מוגבלי ניידות מסיבות רפואיות (בקלפיות נגישות מיוחדות)</span><span class="en">People with medical mobility limitations (at special accessible stations)</span></span>
     <span class="chip"><span class="he">מפונים מביתם עקב המצב הביטחוני</span><span class="en">People evacuated from their homes due to the security situation</span></span>
     <span class="chip"><span class="he">מאושפזים בבתי חולים</span><span class="en">Hospitalized patients</span></span>
   </div>
-</section>
 
-<section class="sec" style="padding-top:20px">
   <article class="row">
-    <div class="row-badge dark"><small><span class="he">איך זה</span><span class="en">How it</span></small><b class="w"><span class="he">עובד?</span><span class="en">works</span></b></div>
+    <div class="row-badge"><small><span class="he">איך זה</span><span class="en">How it</span></small><b class="w"><span class="he">עובד?</span><span class="en">works</span></b></div>
     <div class="row-body">
       <h4><span class="he">מעטפה בתוך מעטפה</span><span class="en">An envelope inside an envelope</span></h4>
       <p><span class="he">כדי לוודא שאיש לא מצביע יותר מפעם אחת (עבירה פלילית), מכניסים את פתק ההצבעה למעטפה כחולה רגילה, ואותה מכניסים ל"מעטפה חיצונית" שעליה נרשמים הפרטים המזהים שלכם.</span><span class="en">To make sure nobody votes more than once (a criminal offense), you put your ballot slip in a regular blue envelope, and put that inside an "outer envelope" on which your identifying details are written.</span></p>
@@ -486,32 +505,31 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
 </section>
 
 <!-- ============ 03 איך אדע למי להצביע ============ -->
-<section id="choose" class="block">
-  <span class="eyebrow"><span class="he">03 — לפני הקלפי</span><span class="en">03 — Before the ballot box</span></span>
-  <h2><span class="he">איך אדע למי להצביע?</span><span class="en">How do I know who to vote for?</span></h2>
-  <p><span class="he">בבחירות לכנסת אנחנו לא מצביעים לאדם בודד, אלא <strong>לרשימת מועמדים שלמה שמייצגת מפלגה</strong>. לכל מפלגה שמתמודדת יש רשימה קבועה מראש של נציגים שייכנסו לכנסת לפי סדר הופעתם, בתנאי שהמפלגה תצליח לעבור את אחוז החסימה.</span><span class="en">In Knesset elections we don't vote for a single person, but for <strong>an entire list of candidates representing a party</strong>. Each party has a fixed, ordered list of representatives who enter the Knesset in that order, provided the party passes the threshold.</span></p>
+<section id="choose" class="sec band-white">
+  <div class="sec-head">
+    <h2><span class="he">איך אדע למי להצביע?</span><span class="en">How do I know who to vote for?</span></h2>
+  </div>
+  <p><span class="he">בבחירות לכנסת אנחנו לא מצביעים לאדם בודד, אלא לרשימת מועמדים שלמה שמייצגת מפלגה. לכל מפלגה שמתמודדת יש רשימה קבועה מראש של נציגים שייכנסו לכנסת לפי סדר הופעתם, בתנאי שהמפלגה תצליח לעבור את אחוז החסימה.</span><span class="en">In Knesset elections we don't vote for a single person, but for an entire list of candidates representing a party. Each party has a fixed, ordered list of representatives who enter the Knesset in that order, provided the party passes the threshold.</span></p>
   <p><span class="he">אז איך מקבלים החלטה? הדרך הפשוטה והטובה ביותר היא לערוך חיפוש מהיר:</span><span class="en">So how do you decide? The simplest and best way is a quick search:</span></p>
   <div class="chips">
     <span class="chip"><span class="he">חפשו את שמות המפלגות</span><span class="en">Look up the party names</span></span>
     <span class="chip"><span class="he">בדקו מי ברשימת המועמדים</span><span class="en">See who is on their list</span></span>
     <span class="chip"><span class="he">קראו על העמדות והעשייה</span><span class="en">Read about their positions and record</span></span>
-    <span class="chip on"><span class="he">מצאו את מי שמייצג אתכם</span><span class="en">Find who represents you</span></span>
+    <span class="chip"><span class="he">מצאו את מי שמייצג אתכם</span><span class="en">Find who represents you</span></span>
   </div>
   <p><span class="he">קצת מחקר עצמאי יעזור לכם למצוא את הנבחרת שמייצגת בצורה הטובה ביותר את הערכים שלכם.</span><span class="en">A little independent research will help you find the team that best represents your values.</span></p>
-  <a class="btn btn-white" href="https://www.idi.org.il/policy/parties-and-elections/elections/2026-1/" target="_blank" rel="noopener"><span class="he">לרשימות המתמודדות לכנסת ולמצעי המפלגות</span><span class="en">Candidate lists and party platforms</span></a>
+  <a class="btn btn-navy" href="https://www.idi.org.il/policy/parties-and-elections/elections/2026-1/" target="_blank" rel="noopener"><span class="he">לרשימות המתמודדות לכנסת ולמצעי המפלגות</span><span class="en">Candidate lists and party platforms</span></a>
 </section>
 
 <!-- ============ 04 תעודת זהות בחירות ============ -->
 <section id="facts" class="sec">
   <div class="sec-head">
-    <span class="eyebrow"><span class="he">04 — תעודת זהות בחירות</span><span class="en">04 — Election ID card</span></span>
-    <h2><span class="he">הבחירות במבט אחד</span><span class="en">The elections at a glance</span></h2>
+    <h2><span class="he">תעודת זהות בחירות</span><span class="en">The elections at a glance</span></h2>
   </div>
 
   <div class="feature">
     <div class="split">
       <span class="label"><span class="he">מתי?</span><span class="en">When?</span></span>
-      <span class="tag"><span class="he">יום הבחירות</span><span class="en">Election Day</span></span>
     </div>
     <span class="big">27.10.2026</span>
     <div class="stats">
@@ -523,7 +541,7 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
 
   <div class="card">
     <h3><span class="he">מי רשאי להתמודד?</span><span class="en">Who can run?</span></h3>
-    <p><span class="he"><strong>רק מפלגות שרשומות כחוק אצל רשם המפלגות</strong> יכולות להגיש רשימת מועמדים לכנסת.</span><span class="en"><strong>Only parties legally registered with the Registrar of Parties</strong> can submit a list of candidates to the Knesset.</span></p>
+    <p><span class="he">רק מפלגות שרשומות כחוק אצל רשם המפלגות יכולות להגיש רשימת מועמדים לכנסת.</span><span class="en">Only parties legally registered with the Registrar of Parties can submit a list of candidates to the Knesset.</span></p>
     <p><span class="he">המועמדים עצמם נבחרים באחת משלוש דרכים:</span><span class="en">The candidates themselves are chosen in one of three ways:</span></p>
     <div class="chips">
       <span class="chip"><span class="he">פריימריז (בחירות מקדימות) על ידי מתפקדי המפלגה</span><span class="en">Primaries, by the party's registered members</span></span>
@@ -534,22 +552,22 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
 </section>
 
 <!-- ============ 05 מנפצים מיתוסים ============ -->
-<section id="myths" class="sec">
+<section id="myths" class="sec band-navy">
   <div class="sec-head">
-    <span class="eyebrow"><span class="he">05 — מנפצים מיתוסים</span><span class="en">05 — Myth busting</span></span>
-    <h2><span class="he">פתק לבן, קולות פסולים וקולות מבוזבזים</span><span class="en">Blank ballots, invalid votes and wasted votes</span></h2>
+    <h2><span class="he">מנפצים מיתוסים</span><span class="en">Myth busting</span></h2>
+    <p class="sub-h"><span class="he">פתק לבן וקולות פסולים מול מבוזבזים</span><span class="en">Blank ballots and invalid votes vs. wasted votes</span></p>
   </div>
 
   <div class="feature">
     <span class="tag"><span class="he">מיתוס</span><span class="en">Myth</span></span>
     <h3><span class="he">"פתק לבן זו הצבעת מחאה"</span><span class="en">"A blank ballot is a protest vote"</span></h3>
-    <p><span class="he">בניגוד למיתוס, <strong>פתק לבן ריק הוא קול פסול לכל עניין ודבר.</strong> הוא לא נספר בנפרד, אין לו משמעות של "הימנעות", והוא כלל לא משפיע על תוצאות הבחירות או על אחוז החסימה.</span><span class="en">Contrary to the myth, <strong>an empty blank ballot is an invalid vote in every respect.</strong> It isn't counted separately, it doesn't mean "abstaining", and it has no effect on the results or on the threshold.</span></p>
+    <p><span class="he">בניגוד למיתוס, פתק לבן ריק הוא קול פסול לכל עניין ודבר. הוא לא נספר בנפרד, אין לו משמעות של "הימנעות", והוא כלל לא משפיע על תוצאות הבחירות או על אחוז החסימה.</span><span class="en">Contrary to the myth, an empty blank ballot is an invalid vote in every respect. It isn't counted separately, it doesn't mean "abstaining", and it has no effect on the results or on the threshold.</span></p>
     <p><span class="he">ההשפעה היחידה שלו היא שהוא מעלה את נתון אחוז ההצבעה הכללי, כך שלמעשה הוא עשוי לשרת מטרה הפוכה ממחאה של חוסר אמון במערכת.</span><span class="en">Its only effect is raising the overall turnout figure, so it may actually serve the opposite of a protest against the system.</span></p>
   </div>
 
   <div class="card">
     <h3><span class="he">מהם קולות פסולים?</span><span class="en">What are invalid votes?</span></h3>
-    <p><span class="he">קולות <strong>שלא נספרים כלל</strong>, ולכן לא משפיעים על אחוז החסימה. אלו כוללים:</span><span class="en">Votes that <strong>are not counted at all</strong>, and therefore don't affect the threshold. They include:</span></p>
+    <p><span class="he">קולות שלא נספרים כלל, ולכן לא משפיעים על אחוז החסימה. אלו כוללים:</span><span class="en">Votes that are not counted at all, and therefore don't affect the threshold. They include:</span></p>
     <ul class="list">
       <li><span class="he">מעטפות שאינן רשמיות</span><span class="en">Unofficial envelopes</span></li>
       <li><span class="he">מעטפה שיש בה פתקים של רשימות שונות</span><span class="en">An envelope with slips of different lists</span></li>
@@ -563,7 +581,7 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
       <h3><span class="he">מהם קולות מבוזבזים?</span><span class="en">What are wasted votes?</span></h3>
       <span style="flex-shrink:0;font-weight:800;font-size:30px;color:var(--blue)">8.8%</span>
     </div>
-    <p><span class="he">אלו קולות <strong>כשרים לחלוטין (ולא פסולים)</strong> שניתנו למפלגות שלא הצליחו לעבור את אחוז החסימה. הם נקראים כך משום שהם לא מתורגמים למושבים בכנסת, אבל הם כן משפיעים על הבחירות: מכיוון שהם נספרים, הם מגדילים את סך הקולות הכשרים ובכך "מעלים" את רף אחוז החסימה עבור שאר המפלגות.</span><span class="en">These are <strong>fully valid votes (not invalid ones)</strong> cast for parties that failed to pass the threshold. They're called "wasted" because they don't turn into Knesset seats, but they do affect the elections: since they are counted, they increase the total of valid votes and so "raise" the threshold bar for all other parties.</span></p>
+    <p><span class="he">אלו קולות כשרים לחלוטין (ולא פסולים) שניתנו למפלגות שלא הצליחו לעבור את אחוז החסימה. הם נקראים כך משום שהם לא מתורגמים למושבים בכנסת, אבל הם כן משפיעים על הבחירות: מכיוון שהם נספרים, הם מגדילים את סך הקולות הכשרים ובכך "מעלים" את רף אחוז החסימה עבור שאר המפלגות.</span><span class="en">These are fully valid votes (not invalid ones) cast for parties that failed to pass the threshold. They're called "wasted" because they don't turn into Knesset seats, but they do affect the elections: since they are counted, they increase the total of valid votes and so "raise" the threshold bar for all other parties.</span></p>
     <div class="box"><span class="he">בבחירות 2022, כ-8.8% מכלל הקולות הכשרים היו "מבוזבזים".</span><span class="en">In the 2022 elections, about 8.8% of all valid votes were "wasted".</span></div>
   </div>
 
@@ -578,42 +596,41 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
 <!-- ============ 06 איך השיטה עובדת ============ -->
 <section id="system" class="sec">
   <div class="sec-head">
-    <span class="eyebrow"><span class="he">06 — איך השיטה עובדת?</span><span class="en">06 — How does the system work?</span></span>
-    <h2><span class="he">6 עקרונות הברזל</span><span class="en">The 6 core principles</span></h2>
-    <p class="intro"><span class="he">שיטת הבחירות בישראל נשענת על שישה עקרונות. אלו הם:</span><span class="en">Israel's electoral system rests on six principles:</span></p>
+    <h2><span class="he">איך השיטה עובדת?</span><span class="en">How does the system work?</span></h2>
+    <p class="sub-h"><span class="he">6 עקרונות הברזל</span><span class="en">The 6 core principles</span></p>
   </div>
 
   <div class="card">
     <div class="card-head"><span class="num">1</span><h3><span class="he">כלליות</span><span class="en">General</span></h3></div>
-    <p><span class="he">הזכות להצביע נתונה <strong>לכל אזרח מעל גיל 18</strong> שרשום בפנקס הבוחרים, ללא הבדל דת, גזע ומין. כדי להיבחר לכנסת, על המועמד להיות <strong>מגיל 21 ומעלה</strong>.</span><span class="en">The right to vote is given to <strong>every citizen over 18</strong> who is listed in the voters' register, regardless of religion, race or sex. To be elected to the Knesset, a candidate must be <strong>21 or older</strong>.</span></p>
+    <p><span class="he">הזכות להצביע נתונה לכל אזרח מעל גיל 18 שרשום בפנקס הבוחרים, ללא הבדל דת, גזע ומין. כדי להיבחר לכנסת, על המועמד להיות מגיל 21 ומעלה.</span><span class="en">The right to vote is given to every citizen over 18 who is listed in the voters' register, regardless of religion, race or sex. To be elected to the Knesset, a candidate must be 21 or older.</span></p>
   </div>
   <div class="card">
     <div class="card-head"><span class="num">2</span><h3><span class="he">ארציות</span><span class="en">Nationwide</span></h3></div>
-    <p><span class="he">מדינת ישראל לא מחולקת למחוזות בחירה; <strong>כל המדינה היא אזור בחירה אחד גדול</strong> לצורך חלוקת המנדטים.</span><span class="en">Israel is not divided into electoral districts; <strong>the whole country is one large constituency</strong> for allocating seats.</span></p>
+    <p><span class="he">מדינת ישראל לא מחולקת למחוזות בחירה; כל המדינה היא אזור בחירה אחד גדול לצורך חלוקת המנדטים.</span><span class="en">Israel is not divided into electoral districts; the whole country is one large constituency for allocating seats.</span></p>
   </div>
   <div class="card">
     <div class="card-head"><span class="num">3</span><h3><span class="he">ישירות</span><span class="en">Direct</span></h3></div>
-    <p><span class="he">המצביעים בוחרים <strong>ישירות</strong> ברשימת המועמדים המועדפת עליהם, ללא מתווכים או גופי בוחרים (כמו בארצות הברית).</span><span class="en">Voters choose their preferred list of candidates <strong>directly</strong>, with no intermediaries or electoral bodies (as in the United States).</span></p>
+    <p><span class="he">המצביעים בוחרים ישירות ברשימת המועמדים המועדפת עליהם, ללא מתווכים או גופי בוחרים (כמו בארצות הברית).</span><span class="en">Voters choose their preferred list of candidates directly, with no intermediaries or electoral bodies (as in the United States).</span></p>
   </div>
   <div class="card">
     <div class="card-head"><span class="num">4</span><h3><span class="he">שוות</span><span class="en">Equal</span></h3></div>
-    <p><span class="he"><strong>לכל בוחר יש קול אחד בלבד</strong>, וכל הקולות – של סטודנט, פרופסור או שר – שווים במשקלם.</span><span class="en"><strong>Every voter has exactly one vote</strong>, and all votes – of a student, a professor or a minister – carry the same weight.</span></p>
+    <p><span class="he">לכל בוחר יש קול אחד בלבד, וכל הקולות – של סטודנט, פרופסור או שר – שווים במשקלם.</span><span class="en">Every voter has exactly one vote, and all votes – of a student, a professor or a minister – carry the same weight.</span></p>
   </div>
   <div class="card">
     <div class="card-head"><span class="num">5</span><h3><span class="he">חשאיות</span><span class="en">Secret</span></h3></div>
-    <p><span class="he">ההצבעה נעשית אך ורק <strong>מאחורי פרגוד, לבד, לתוך מעטפה אטומה</strong>. המטרה היא להבטיח את הגינות הבחירות ולמנוע מכל גורם להפעיל לחץ על המצביעים.</span><span class="en">Voting is done only <strong>behind a screen, alone, into a sealed envelope</strong>. The goal is to ensure fair elections and prevent anyone from pressuring voters.</span></p>
+    <p><span class="he">ההצבעה נעשית אך ורק מאחורי פרגוד, לבד, לתוך מעטפה אטומה. המטרה היא להבטיח את הגינות הבחירות ולמנוע מכל גורם להפעיל לחץ על המצביעים.</span><span class="en">Voting is done only behind a screen, alone, into a sealed envelope. The goal is to ensure fair elections and prevent anyone from pressuring voters.</span></p>
   </div>
   <div class="card">
     <div class="card-head"><span class="num">6</span><h3><span class="he">יחסיות</span><span class="en">Proportional</span></h3></div>
-    <p><span class="he">כל מפלגה שעברה את אחוז החסימה מקבלת ייצוג בכנסת <strong>באופן יחסי למספר הקולות הכשרים</strong> שקיבלה.</span><span class="en">Every party that passes the electoral threshold gets Knesset seats <strong>in proportion to the number of valid votes</strong> it received.</span></p>
+    <p><span class="he">כל מפלגה שעברה את אחוז החסימה מקבלת ייצוג בכנסת באופן יחסי למספר הקולות הכשרים שקיבלה.</span><span class="en">Every party that passes the electoral threshold gets Knesset seats in proportion to the number of valid votes it received.</span></p>
   </div>
 </section>
 
 <!-- ============ 07 המילון למצביע ============ -->
-<section id="dictionary" class="sec">
+<section id="dictionary" class="sec band-white">
   <div class="sec-head">
-    <span class="eyebrow"><span class="he">07 — המילון למצביע</span><span class="en">07 — The voter's dictionary</span></span>
-    <h2><span class="he">מאחורי הקלעים של ספירת הקולות</span><span class="en">Behind the scenes of the vote count</span></h2>
+    <h2><span class="he">המילון למצביע</span><span class="en">The voter's dictionary</span></h2>
+    <p class="sub-h"><span class="he">מאחורי הקלעים של ספירת הקולות</span><span class="en">Behind the scenes of the vote count</span></p>
   </div>
 
   <div class="feature">
@@ -644,7 +661,7 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
     </div>
     <p><span class="he">אחרי שכל מפלגה מקבלת מנדטים לפי המספר השלם שיצא בחלוקה הראשונית, נשארים מנדטים "עודפים". כדי לקבוע מי יקבל אותם, מחשבים לכל רשימה "מודד" חדש למנדט הבא:</span><span class="en">After each party receives seats according to the whole number from the initial division, some "surplus" seats remain. To decide who gets them, a new "quota" for the next seat is calculated for each list:</span></p>
     <div class="box center"><span class="he">סך כל הקולות של הרשימה ÷ (מספר המושבים שקיבלה עד כה + 1)</span><span class="en">Total votes of the list ÷ (seats received so far + 1)</span></div>
-    <p><span class="he">הרשימה עם התוצאה הגדולה ביותר מקבלת את המנדט הראשון שנותר, וכך הלאה עד לחלוקת כל 120 המושבים. <strong>שיטה זו לרוב מעניקה יתרון למפלגות הגדולות.</strong></span><span class="en">The list with the highest result gets the first remaining seat, and so on until all 120 seats are allocated. <strong>This method usually favors the larger parties.</strong></span></p>
+    <p><span class="he">הרשימה עם התוצאה הגדולה ביותר מקבלת את המנדט הראשון שנותר, וכך הלאה עד לחלוקת כל 120 המושבים. שיטה זו לרוב מעניקה יתרון למפלגות הגדולות.</span><span class="en">The list with the highest result gets the first remaining seat, and so on until all 120 seats are allocated. This method usually favors the larger parties.</span></p>
   </div>
 
   <div class="card">
