@@ -105,7 +105,7 @@
   var vh=innerHeight;
   var kinds=[
     ['.sec-head h2, footer h2','mask'],
-    ['.sec-head .sub-h, .sec-head .intro, .sec>p, .sec>.chips, .sec>.btn, .group, .row, .card, .feature, .hours, .compare, .sec>.box, .foot-kicker, .frow, .logo-foot, .fnote','']
+    ['.sec-head .sub-h, .sec-head .intro, .sec>p, .sec>.who, .sec>.btn, .lists-cta, .steps4 li, .group, .row, .card, .feature, .hours, .compare, .sec>.box, .foot-kicker, .frow, .logo-foot, .fnote','']
   ];
   var pending=new Map();
   var reveal=new IntersectionObserver(function(entries){
