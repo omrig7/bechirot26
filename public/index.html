@@ -6,15 +6,15 @@
 <title>המדריך לסטודנט | הבחירות לכנסת ה-26 · Student Guide | Knesset Elections</title>
 <meta name="description" content="המדריך המורחב לסטודנט: כל מה שצריך לדעת על הבחירות לכנסת ה-26. The complete student guide to the elections for the 26th Knesset.">
 <meta name="theme-color" content="#21409A">
-<link rel="canonical" href="https://bechirot26.aguda.workers.dev/">
+<link rel="canonical" href="https://bechirot26.reichman-aguda.workers.dev/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="he_IL">
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:site_name" content="אגודת הסטודנטים | אוניברסיטת רייכמן">
 <meta property="og:title" content="בחירות לכנסת ה-26 · המדריך המורחב לסטודנט">
 <meta property="og:description" content="כל מה שצריך לדעת לפני הקלפי: איך מצביעים, מעטפות כפולות, מיתוסים ומילון למצביע. שלישי 27.10 · 07:00–22:00">
-<meta property="og:url" content="https://bechirot26.aguda.workers.dev/">
-<meta property="og:image" content="https://bechirot26.aguda.workers.dev/og.png">
+<meta property="og:url" content="https://bechirot26.reichman-aguda.workers.dev/">
+<meta property="og:image" content="https://bechirot26.reichman-aguda.workers.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="בחירות לכנסת ה-26 · המדריך המורחב לסטודנט · שלישי 27.10">
@@ -199,6 +199,10 @@ html:has(#langchk:checked) .clock-units{justify-content:flex-start}
 .stat.wide{grid-column:1/-1}
 .box{font-size:var(--fs-sm);font-weight:700;line-height:1.5;padding:10px 12px;border-radius:12px;background:var(--cream);color:var(--navy)}
 .box.center{text-align:center}
+.box.frac{display:grid;justify-content:center;text-align:center;padding:12px 14px;font-size:var(--fs-sm);line-height:1.4}
+.frac-n,.frac-d{padding:3px 4px}
+.frac-n{border-bottom:1.5px solid currentColor}
+.nw{white-space:nowrap}
 .box.alert{background:var(--navy3);color:var(--white);font-size:var(--fs-base);padding:14px 16px}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,110px),1fr));gap:8px}
 .grid2 .box{padding:12px}
@@ -713,7 +717,11 @@ html:has(#ul:checked) #page a{text-decoration:underline!important;text-underline
       <span class="tag"><span class="he">שיטת בדר-עופר</span><span class="en">Bader-Ofer method</span></span>
     </div>
     <p><span class="he">אחרי שכל מפלגה מקבלת מנדטים לפי המספר השלם שיצא בחלוקה הראשונית, נשארים מנדטים "עודפים". כדי לקבוע מי יקבל אותם, מחשבים לכל רשימה "מודד" חדש למנדט הבא:</span><span class="en">After each party receives seats according to the whole number from the initial division, some "surplus" seats remain. To decide who gets them, a new "quota" for the next seat is calculated for each list:</span></p>
-    <div class="box center"><span class="he">סך כל הקולות של הרשימה ÷ (מספר המושבים שקיבלה עד כה + 1)</span><span class="en">Total votes of the list ÷ (seats received so far + 1)</span></div>
+    <div class="box frac">
+      <span class="vh"><span class="he">סך כל הקולות של הרשימה חלקי (מספר המושבים שקיבלה עד כה ועוד 1)</span><span class="en">Total votes of the list divided by (seats received so far plus 1)</span></span>
+      <span class="frac-n" aria-hidden="true"><span class="he">סך כל הקולות של הרשימה</span><span class="en">Total votes of the list</span></span>
+      <span class="frac-d" aria-hidden="true"><span class="he">מספר המושבים שקיבלה <span class="nw">עד כה + 1</span></span><span class="en">Seats received <span class="nw">so far + 1</span></span></span>
+    </div>
     <p><span class="he">הרשימה עם התוצאה הגדולה ביותר מקבלת את המנדט הראשון שנותר, וכך הלאה עד לחלוקת כל 120 המושבים. שיטה זו לרוב מעניקה יתרון למפלגות הגדולות.</span><span class="en">The list with the highest result gets the first remaining seat, and so on until all 120 seats are allocated. This method usually favors the larger parties.</span></p>
   </div>
 
